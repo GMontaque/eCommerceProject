@@ -127,7 +127,7 @@ public class ShopFront {
                     logic.findProduct(scan);
                     break;
                 case 3:
-//                    logic.getLoad().updateProducts();
+                    logic.getLoad().updateProducts();
                     break;
             }
         }

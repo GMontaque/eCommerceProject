@@ -9,4 +9,6 @@
 9,TOPZEE Large Air Fryer,139,XL air fryer with 8-in-1 cooking options,14
 10,Ninja Food Dual Zone Air Fryer,169,7-quart air fryer with mega zone basket,17
 11,Ninja,169,7-quart air fryer with mega zone basket,17
-12,Ninja space,169,7-quart air fryer with mega zone basket,17
+12,Ninja space,169,7-quart air fryer with mega zone basket,1713
+13,Ninja spacasde,169,7-qasduart air fryer with mega zone basket,17
+13,Ninja spacasde,169,7-qasduart air fryer with mega zone basket,17

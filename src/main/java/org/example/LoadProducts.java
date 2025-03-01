@@ -3,7 +3,6 @@ package org.example;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -11,14 +10,17 @@ public class LoadProducts {
 
     private HashMap<Integer, Products> stock;
     private boolean runProgram;
-
+    private final FileService productsService;
     public LoadProducts(){
         stock = new HashMap<>();
+        productsService = new FileService("src/main/java/org/example/data/products.txt");
     }
 
     public void populate(){
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream products = classloader.getResourceAsStream("products.txt");
+//        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+//        InputStream products = classloader.getResourceAsStream("./data/products.txt");
+        String products = productsService.readFile();
+//        System.out.println(products);
         if (products == null){
             this.runProgram = false;
             System.out.println("Error: File can not be found");
@@ -65,18 +67,7 @@ public class LoadProducts {
     }
 
     public void updateProducts(){
-        String stringToWrite = "\nJava files are easy";
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("products.txt", true));
-            writer.write(stringToWrite);
-
-            writer.close();
-            System.out.println(writer);
-        } catch (IOException ioe) {
-            System.out.println("Couldn't write to file");
-        }
-
-
+        productsService.writeFile("\n13,Ninja spacasde,169,7-qasduart air fryer with mega zone basket,17");
     }
 
 

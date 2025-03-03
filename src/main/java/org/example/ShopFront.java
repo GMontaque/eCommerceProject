@@ -23,7 +23,7 @@ public class ShopFront {
                 
                 """);
 
-        logic.getLoad().populate();
+        logic.getLoad().populate(scan);
         if (logic.getLoad().getRunProgram()) {
             if (command(scan, logic)) {
                 shopPage(scan, logic);
@@ -127,7 +127,7 @@ public class ShopFront {
                     logic.findProduct(scan);
                     break;
                 case 3:
-                    logic.getLoad().updateProducts();
+                    logic.getLoad().updateProducts(scan);
                     break;
             }
         }
@@ -178,81 +178,3 @@ public class ShopFront {
         }
     }
 }
-
-
-//        while (true){
-//
-//            int selection;
-//
-//            if (logic.getCustomer().isAdmin()) {
-//                System.out.println("""
-//                    Choose from the below options:
-//                    (1): Product List
-//                    (2): Individual Product Details
-//                        (-): Update stock
-//                        (-): Remove Product
-//                        (-): Update Price
-//                        (-): Updating Description
-//                    (3): Add New Product
-//                    (4): Quit
-//                    """);
-//
-//                String adminSelection;
-//                while (true){
-//                    System.out.print("Enter a number between 1 and 4: ");
-//                    adminSelection = scan.nextLine().trim();
-//                    if(logic.inputCheck(adminSelection, 4)){
-//                        selection = Integer.parseInt(adminSelection);
-//                        break;
-//                    }
-//                }
-//
-//                if (adminSelection.equals("4")){
-//                    break;
-//                }
-//
-//            } else {
-//                System.out.println("""
-//                    Choose from the below options:
-//                    (1): Product List
-//                    (2): Individual Product Details
-//                        (-): add product to basket
-//                    (3): checkout
-//                        (-): remove item from basket
-//                    (4): empty basket
-//                    (5): Add Funds to Card
-//                    (6): Quit
-//                    """);
-//
-//                String customerSelection;
-//                while (true){
-//                    System.out.print("Enter a number between 1 and 6: ");
-//                    customerSelection = scan.nextLine().trim();
-//                    if(logic.inputCheck(customerSelection, 6)){
-//                        selection = Integer.parseInt(customerSelection);
-//                        break;
-//                    }
-//                }
-//
-//                if (customerSelection.equals("6")){
-//                    break;
-//                }
-//
-//            }
-//
-//            switch(selection) {
-//                case 1:
-//                    logic.loadStock();
-//                    break;
-//                case 2:
-//                    System.out.println("2");
-//                    break;
-//                case 3:
-//                    System.out.println("3");
-//                    break;
-//                case 4:
-//                    System.out.println("4");
-//                    break;
-//            }
-//        }
-

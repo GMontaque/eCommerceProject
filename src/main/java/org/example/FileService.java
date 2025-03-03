@@ -22,8 +22,7 @@ public class FileService {
             }
             br.close();
         } catch (IOException e) {
-            System.out.println("An error was thrown.");
-            e.printStackTrace();
+            System.out.println("Error: file could not be read");
         }
         return content;
     }
@@ -35,7 +34,6 @@ public class FileService {
             writer.write(content);
 
             writer.close();
-//            System.out.println(writer);
         } catch (IOException ioe) {
             System.out.println("Couldn't write to file");
         }

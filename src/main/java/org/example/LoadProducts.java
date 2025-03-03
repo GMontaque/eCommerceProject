@@ -1,10 +1,9 @@
 package org.example;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class LoadProducts {
 
@@ -16,16 +15,14 @@ public class LoadProducts {
         productsService = new FileService("src/main/java/org/example/data/products.txt");
     }
 
-    public void populate(){
-//        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-//        InputStream products = classloader.getResourceAsStream("./data/products.txt");
+    public void populate(Scanner scan){
         String products = productsService.readFile();
-//        System.out.println(products);
+
         if (products == null){
             this.runProgram = false;
             System.out.println("Error: File can not be found");
         } else {
-            Scanner scan = new Scanner(products).useDelimiter("\\A");
+            scan = new Scanner(products).useDelimiter("\\A");
             String result = scan.hasNext() ? scan.next() : "File is Empty";
             this.runProgram = !result.equals("File is Empty");
             loadProducts(result);
@@ -42,7 +39,7 @@ public class LoadProducts {
 
         for (String s : productLineSplit) {
             String[] product = s.split(",");
-            Products stockProduct = new Products(Integer.parseInt(product[0]),product[1],Integer.parseInt(product[2]),
+            Products stockProduct = new Products(Integer.parseInt(product[0]),product[1],Double.parseDouble(product[2]),
                     product[3],Integer.parseInt(product[4]));
             stock.put(Integer.parseInt(product[0]),stockProduct);
 //            System.out.println(Arrays.toString(product));
@@ -66,9 +63,38 @@ public class LoadProducts {
         }
     }
 
-    public void updateProducts(){
-        productsService.writeFile("\n13,Ninja spacasde,169,7-qasduart air fryer with mega zone basket,17");
+    public void updateProducts(Scanner scan){
+
+        int id = this.stock.size() + 1;
+        String productName = stringInputCheck(scan,"Product Name");
+        double price = Double.parseDouble(numberCheck(scan, "Price"));
+        String description = stringInputCheck(scan, "Product Description");
+        int stock = Integer.parseInt(numberCheck(scan, "Stock Amount"));
+
+        productsService.writeFile("\n" + id + "," + productName + "," + price + "," + description
+                + "," + stock);
+        System.out.println("New Product successfully added to shop");
     }
 
+    public String stringInputCheck(Scanner scan, String title){
+        String stringInput;
+        do {
+            System.out.print("Enter the " + title + ": ");
+            stringInput = scan.nextLine().trim();
+        } while (!Pattern.matches("[a-zA-Z\\s]+", stringInput));
+
+        return stringInput;
+    }
+
+    public String numberCheck(Scanner scan, String title){
+
+        String numInput;
+        do {
+            System.out.print("Enter the " + title + ": ");
+            numInput = scan.nextLine().trim();
+        } while (!Pattern.matches("^[0-9]+(\\.[0-9]{1,2})?$", numInput));
+
+        return numInput;
+    }
 
 }

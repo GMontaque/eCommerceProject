@@ -3,12 +3,12 @@ package org.example;
 public class Products {
     private int id;
     private String productName;
-    private int price;
+    private double price;
     private String description;
     private int stock;
     private boolean outOfStock;
 
-    public Products(int id, String productName, int price, String description, int stock){
+    public Products(int id, String productName, double price, String description, int stock){
         this.id = id;
         this.productName = productName;
         this.price = price;

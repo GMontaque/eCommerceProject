@@ -10,9 +10,6 @@ public class Customer {
     private boolean admin;
     private double balance;
 
-    public Customer(){
-    }
-
     public void setCustomer(String first_name, String last_name, boolean admin){
         this.id = this.gen();
         this.first_name = first_name;
@@ -46,9 +43,13 @@ public class Customer {
         return balance;
     }
 
+    public void printBalance(){
+        System.out.println("Current Balance: £" + this.balance);
+    }
+
     public boolean setBalance(String cost){
         if (Pattern.matches("^[0-9]+(\\.[0-9]{1,2})?$", cost)) {
-            this.balance += Integer.parseInt(cost);
+            this.balance += Double.parseDouble(cost);
             return true;
         }
         return false;

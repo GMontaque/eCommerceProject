@@ -1,7 +1,6 @@
 package org.example;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -13,6 +12,10 @@ public class LoadProducts {
     public LoadProducts(){
         stock = new HashMap<>();
         productsService = new FileService("src/main/java/org/example/data/products.txt");
+    }
+
+    public HashMap<Integer, Products> getStock() {
+        return stock;
     }
 
     public void populate(Scanner scan){
@@ -42,7 +45,6 @@ public class LoadProducts {
             Products stockProduct = new Products(Integer.parseInt(product[0]),product[1],Double.parseDouble(product[2]),
                     product[3],Integer.parseInt(product[4]));
             stock.put(Integer.parseInt(product[0]),stockProduct);
-//            System.out.println(Arrays.toString(product));
         }
 
     }
@@ -54,13 +56,15 @@ public class LoadProducts {
         }
     }
 
-    public void returnOneProduct(String productName){
+    public int returnOneProduct(String productName){
         for (int numKey : stock.keySet()){
             if(stock.get(numKey).getProductName().equals(productName)){
                 System.out.println(stock.get(numKey));
                 System.out.println();
+                return numKey;
             }
         }
+        return -1;
     }
 
     public void updateProducts(Scanner scan){
@@ -69,10 +73,14 @@ public class LoadProducts {
         String productName = stringInputCheck(scan,"Product Name");
         double price = Double.parseDouble(numberCheck(scan, "Price"));
         String description = stringInputCheck(scan, "Product Description");
-        int stock = Integer.parseInt(numberCheck(scan, "Stock Amount"));
+        int stockLevel = Integer.parseInt(numberCheck(scan, "Stock Amount"));
 
         productsService.writeFile("\n" + id + "," + productName + "," + price + "," + description
-                + "," + stock);
+                + "," + stockLevel);
+
+        Products newStockProduct = new Products(id,productName,price,description,stockLevel);
+        this.stock.put(id,newStockProduct);
+
         System.out.println("New Product successfully added to shop");
     }
 
@@ -95,6 +103,25 @@ public class LoadProducts {
         } while (!Pattern.matches("^[0-9]+(\\.[0-9]{1,2})?$", numInput));
 
         return numInput;
+    }
+
+    public void updateProductOptions(int key, String command, String value){
+        System.out.println("updateProductOptions result: "+ key + command + value);
+        Products stockItem = stock.get(key);
+        switch (command) {
+            case "add Stock":
+                stockItem.setStock(Integer.parseInt(value));
+                break;
+            case "reduce Stock":
+                stockItem.setReduceStock(Integer.parseInt(value));
+                break;
+            case "Price update amount":
+                stockItem.setPrice(Double.parseDouble(value));
+                break;
+            case "update description":
+                stockItem.setDescription(value);
+                break;
+        }
     }
 
 }

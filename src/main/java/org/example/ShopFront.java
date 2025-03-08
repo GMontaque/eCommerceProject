@@ -31,6 +31,8 @@ public class ShopFront {
         } else {
             System.out.println("Error: products code not load and program has ended");
         }
+
+        updateProductsTxt(logic);
     }
 
     /**
@@ -110,23 +112,19 @@ public class ShopFront {
                     """);
 
             System.out.print("Enter a number between 1 and 4: ");
-            int selection = 0;
             String adminSelection = scan.nextLine().trim();
             if(adminSelection.equals("4")){
                 break;
             }
-            if (logic.inputCheck(adminSelection, 4)) {
-                selection = Integer.parseInt(adminSelection);
-            }
 
-            switch (selection) {
-                case 1:
+            switch (adminSelection) {
+                case "1":
                     logic.loadStock();
                     break;
-                case 2:
+                case "2":
                     logic.findProduct(scan);
                     break;
-                case 3:
+                case "3":
                     logic.getLoad().updateProducts(scan);
                     break;
             }
@@ -142,39 +140,40 @@ public class ShopFront {
                         (-): add product to basket
                     (3): checkout
                         (-): Pay
-                    (4): empty basket
                         (-): remove item from basket
-                    (5): Add Funds to Card
+                        (-): empty basket
+                    (4): Add Funds to Card
+                    (5): Current Balance
                     (6): Quit
                     """);
 
             System.out.print("Enter a number between 1 and 6: ");
-            int selection = 0;
             String adminSelection = scan.nextLine().trim();
             if(adminSelection.equals("6")){
                 break;
             }
-            if (logic.inputCheck(adminSelection, 6)) {
-                selection = Integer.parseInt(adminSelection);
-            }
 
-            switch (selection) {
-                case 1:
+            switch (adminSelection) {
+                case "1":
                     logic.loadStock();
                     break;
-                case 2:
+                case "2":
                     logic.findProduct(scan);
                     break;
-                case 3:
-                    logic.completeOrder();
+                case "3":
+                    logic.checkout(scan);
                     break;
-                case 4:
-                    System.out.println("4");
-                    break;
-                case 5:
+                case "4":
                     logic.addFunds(scan);
+                    break;
+                case "5":
+                    logic.balance();
                     break;
             }
         }
+    }
+
+    public void updateProductsTxt(ShopLogic logic){
+        System.out.println("TXT file updated");
     }
 }

@@ -14,7 +14,15 @@ public class Products {
         this.price = price;
         this.description = description;
         this.stock = stock;
-        this.outOfStock = false;
+        this.outOfStock = this.stock <= 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public String getProductName() {
@@ -23,14 +31,36 @@ public class Products {
 
     public void setOutOfStock(boolean outOfStock) {
         this.outOfStock = outOfStock;
+        this.stock = 0;
     }
 
     public void setStock(int stock) {
-        this.stock = stock;
+        if(this.stock + stock <= 1000){
+            this.stock += stock;
+        } else{
+            System.out.println("Error: stock set at maximum of 1000");
+            this.stock = 1000;
+        }
     }
 
-    public void setPrice(int price) {
+    public void setReduceStock(int stock) {
+        if (this.stock - stock == 0){
+            this.stock = 0;
+            this.outOfStock = true;
+        } else if(this.stock - stock > 0){
+            this.stock -= stock;
+        } else {
+            System.out.println("Error: Stock level can not be negative");
+            System.out.println("Current Stock level: " + this.stock);
+        }
+    }
+
+    public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

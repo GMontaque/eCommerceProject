@@ -174,6 +174,7 @@ public class ShopFront {
     }
 
     public void updateProductsTxt(ShopLogic logic){
+        logic.newStockUpdateData();
         System.out.println("TXT file updated");
     }
 }

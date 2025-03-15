@@ -29,6 +29,18 @@ public class Products {
         return productName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public boolean getOutOfStock() {
+        return this.outOfStock;
+    }
+    
     public void setOutOfStock(boolean outOfStock) {
         this.outOfStock = outOfStock;
         this.stock = 0;
@@ -52,6 +64,7 @@ public class Products {
         } else {
             System.out.println("Error: Stock level can not be negative");
             System.out.println("Current Stock level: " + this.stock);
+            System.out.println();
         }
     }
 
@@ -61,6 +74,14 @@ public class Products {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void toMiniString(){
+        String mini =  "Product Name: " + this.productName +
+                " - " + "Price: " + this.price +
+                " - " + "Stock: " + this.stock;
+        System.out.println(mini);
+        System.out.println();
     }
 
     @Override

@@ -1,11 +1,12 @@
-1,Tower Xpress Air Fryer,99,Versatile air fryer with 5 cooking functions,20
-2,Tower Xpress Pro Air Fryer,129,Advanced air fryer with digital touchscreen,15
-3,Tefal Easy Fry Air Fryer,149,9-in-1 cooking functions including rotisserie,10
-4,Ninja Foodi FlexDrawer,199,Flexible air fryer with dual-zone technology,25
-5,Emeril Lagasse Air Fryer,179,Large air fryer with 12 cooking presets,18
-6,Bella Pro TriZone Air Fryer,89,Compact air fryer with removable divider,30
-7,Instant Vortex Plus Air Fryer,119,10-quart air fryer with dehydrate function,22
-8,Progress Dual View Air Fryer,79,7-litre air fryer with viewing window,27
-9,TOPZEE Large Air Fryer,139,XL air fryer with 8-in-1 cooking options,14
-10,Ninja Food Dual Zone Air Fryer,169,7-quart air fryer with mega zone basket,17
-11,Ninja,169.23,7-quart air fryer with mega zone basket,17
+1,tower xpress,99.0,Versatile air fryer with 5 cooking functions,20
+1,tower xpress,99.0,Versatile air fryer with 5 cooking functions,20
+2,tower xp,129.0,Advanced air fryer with digital touchscreen,15
+3,tefal easy,149.0,9-in-1 cooking functions including rotisserie,10
+4,ninja food,199.0,Flexible air fryer with dual-zone technology,25
+5,emeril lagasse,179.0,Large air fryer with 12 cooking presets,18
+6,bella pro,89.0,Compact air fryer with removable divider,30
+7,instant vortex,119.0,10-quart air fryer with dehydrate function,22
+8,progress dual,79.0,7-litre air fryer with viewing window,27
+9,topzee large,139.0,XL air fryer with 8-in-1 cooking options,14
+10,ninja fo,169.0,7-quart air fryer with mega zone basket,17
+11,ninja,169.23,7-quart air fryer with mega zone basket,17

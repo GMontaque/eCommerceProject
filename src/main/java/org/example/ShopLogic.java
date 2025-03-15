@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -15,7 +16,7 @@ public class ShopLogic {
     public ShopLogic(){
         this.customer = new Customer();
         this.load = new LoadProducts();
-        this.cart = new ShoppingCart(this.customer.getId());
+        this.cart = new ShoppingCart();
     }
 
     public Customer getCustomer() {
@@ -79,20 +80,51 @@ public class ShopLogic {
     }
 
     public void findProduct(Scanner scan){
-        String productName;
-        do {
-            System.out.print("Enter the product name: ");
-            productName = scan.nextLine().trim();
-        } while (!Pattern.matches("[a-zA-Z\\s]+", productName));
 
-        int productKey = load.returnOneProduct(productName);
+        loadStock();
 
-        if (this.customer.isAdmin()) {
-            adminSubOptions(scan,productKey);
-        } else {
-            customerSubOptions(scan,productKey);
+        while(true){
+            String productName;
+            do {
+                System.out.print("Enter the product name: ");
+                productName = scan.nextLine().trim();
+            } while (!Pattern.matches("[a-zA-Z\\s]+", productName));
+
+            if (productName.equals("exit")){
+                break;
+            }
+
+            if(productName.equals("list")){
+                for (int key : load.getStock().keySet()){
+                    load.getStock().get(key).toMiniString();
+                }
+
+            }
+
+            if(oneProductNameCheck(productName,scan)){
+                break;
+            }
         }
 
+
+    }
+
+    public boolean oneProductNameCheck(String productName, Scanner scan){
+        int productKey = load.returnOneProduct(productName);
+
+
+        if (productKey > 0) {
+            if (this.customer.isAdmin()) {
+                adminSubOptions(scan,productKey);
+            } else {
+                customerSubOptions(scan,productKey);
+            }
+            return true;
+        } else {
+            System.out.println("Error: product name can not be found please try again or input " +
+                    "\"exit\" to go back to the main menu or list to view all the products we sell");
+        }
+        return false;
     }
 
     public void customerSubOptions(Scanner scan, int key){
@@ -105,7 +137,7 @@ public class ShopLogic {
                         (2): Main Menu
                     """);
 
-            System.out.print("Enter either 1 or 2 ");
+            System.out.print("Enter either 1 or 2: ");
 
             String adminSelection = scan.nextLine().trim();
 
@@ -114,15 +146,43 @@ public class ShopLogic {
             }
 
             if (adminSelection.equals("1")) {
-                String amount;
-                do {
-                    System.out.print("Enter an amount to buy max(9): ");
-                    amount = scan.nextLine().trim();
-                } while (!inputCheck(amount, 9));
-                cart.addItem(load.getStock().get(key), amount);
+                stockCheck(key, scan);
                 break;
             }
+        }
+    }
 
+    public void stockCheck(int key,Scanner scan){
+
+        int cartItemAmount = cart.getCartQuantity().getOrDefault(key,0);
+        if (load.getStock().get(key).getOutOfStock()){
+            System.out.println("Error: Product is out of stock");
+        } else if(cartItemAmount == 9){
+            System.out.println("Error: Max quantity reached, you can not purchase any more");
+        } else {
+            quantityCheck(scan,key,cartItemAmount);
+        }
+    }
+
+    public void quantityCheck(Scanner scan, int key, int cartItemAmount){
+        String amount;
+        do {
+            System.out.print("Enter an amount to buy max(9): ");
+            amount = scan.nextLine().trim();
+        } while (!inputCheck(amount, 9));
+
+        if (cartItemAmount + Integer.parseInt(amount) > 9){
+            System.out.println("Error: Max quantity reached, you can not purchase any more than 9 items");
+            System.out.println("Current Basket amount: " + cartItemAmount);
+        } else {
+            int reservedStock = load.getStock().get(key).getStock() - cart.getCartQuantity().getOrDefault(key,0);
+
+            if (reservedStock  >= Integer.parseInt(amount)){
+                cart.addItem(load.getStock().get(key), amount);
+            } else {
+                System.out.println("Error: Stock level is to low please order less");
+                System.out.println("Remaining Stock: " + reservedStock);
+            }
         }
     }
 
@@ -186,7 +246,7 @@ public class ShopLogic {
     public void descriptionCheck(Scanner scan, int key, String command){
         String description;
         do {
-            System.out.print("Enter the product name: ");
+            System.out.print("Enter new product description: ");
             description = scan.nextLine().trim();
         } while (!Pattern.matches("[a-zA-Z\\s]+", description));
 
@@ -218,11 +278,15 @@ public class ShopLogic {
 
             switch (customerSelection) {
                 case "1":
-                    if(cart.payOrder(customer)){
+                    HashMap<Integer, Integer> cartResult = cart.payOrder(customer);
+                    if(!cartResult.isEmpty()){
                         orderComplete = true;
                         updateProductStock();
                     }
 
+//                    if (cartResult) {
+//                        System.out.println("this worked ");
+//                    }
                     break;
                 case "2":
                     getKeyRemoveProduct(scan);
@@ -246,8 +310,6 @@ public class ShopLogic {
                 load.getStock().get(key).setReduceStock(cart.getCartQuantity().get(key));
             }
         }
-//        System.out.println(load.getStock());
-//        System.out.println(cart.getCartQuantity());
     }
 
     public void getKeyRemoveProduct(Scanner scan){
@@ -274,6 +336,10 @@ public class ShopLogic {
                 System.out.println("Error: please enter a valid number");
             }
         }
+    }
+
+    public void newStockUpdateData(){
+        load.reWriteTxt();
     }
 
 }

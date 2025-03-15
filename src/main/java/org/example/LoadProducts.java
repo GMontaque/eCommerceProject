@@ -58,7 +58,7 @@ public class LoadProducts {
 
     public int returnOneProduct(String productName){
         for (int numKey : stock.keySet()){
-            if(stock.get(numKey).getProductName().equals(productName)){
+            if(stock.get(numKey).getProductName().equals(productName.toLowerCase())){
                 System.out.println(stock.get(numKey));
                 System.out.println();
                 return numKey;
@@ -106,7 +106,7 @@ public class LoadProducts {
     }
 
     public void updateProductOptions(int key, String command, String value){
-        System.out.println("updateProductOptions result: "+ key + command + value);
+//        System.out.println("updateProductOptions result: "+ key + command + value);
         Products stockItem = stock.get(key);
         switch (command) {
             case "add Stock":
@@ -122,6 +122,10 @@ public class LoadProducts {
                 stockItem.setDescription(value);
                 break;
         }
+    }
+
+    public void reWriteTxt(){
+        productsService.updateTxt(stock);
     }
 
 }

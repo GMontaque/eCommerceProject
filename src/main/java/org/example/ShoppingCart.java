@@ -4,14 +4,12 @@ import java.util.HashMap;
 
 public class ShoppingCart {
     private HashMap<Integer,Products> checkout;
-    private HashMap<Integer,Integer> productChange;
     private HashMap<Integer,Integer> cartQuantity;
     private double totalCost;
 
-    public ShoppingCart(int customerId){
+    public ShoppingCart(){
         this.checkout = new HashMap<>();
         this.totalCost = 0;
-        this.productChange = new HashMap<>();
         this.cartQuantity = new HashMap<>();
     }
 
@@ -37,25 +35,19 @@ public class ShoppingCart {
         System.out.println(item.getProductName() + " was added to your basket");
     }
 
-    public boolean payOrder(Customer customer){
+    public HashMap<Integer,Integer> payOrder(Customer customer){
         System.out.println("Wallet Fund: £" + customer.getBalance());
         System.out.println("Basket Total: £" + totalCost);
 
         if(customer.getBalance() > totalCost){
             customer.setNewBalance(totalCost);
-            setProductChange(this.checkout);
+//            setProductChange(this.checkout);
             checkout.clear();
             System.out.println("Payment has been completed and order processed");
-            return true;
+            return this.cartQuantity;
         }
         System.out.println("Error: Cost of items is more than your balance");
-        return false;
-    }
-
-    public void setProductChange(HashMap<Integer, Products> productChange) {
-        for(int id : productChange.keySet()){
-            this.productChange.put(id, this.productChange.getOrDefault(id, 1) + 1);
-        }
+        return new HashMap<>();
     }
 
     public void shoppingCart(){
